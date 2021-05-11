@@ -32,11 +32,11 @@ public class UserRepository {
                         person.getPassword().equals(password)).orElse(null);
     }
 
-    public Person addUser(String name, String pass) {
+    public Person addUser(String name, String pass, String icon) {
         template.execute("USE persons");
 
-        template.update("INSERT INTO allPersons (login, pass) "+
-                "VALUES (?, ?) ", name, pass);
+        template.update("INSERT INTO allPersons (login, pass, icon) "+
+                "VALUES (?, ?, ?) ", name, pass, icon);
 
         return template.query("SELECT * FROM allPersons WHERE login = ? AND pass = ?", new UserMapper(), name, pass)
                 .stream().findFirst().filter(person -> person.getName().equals(name) &&

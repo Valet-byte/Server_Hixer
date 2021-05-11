@@ -15,8 +15,8 @@ public class UsersUtilService {
         return repository.findUser(name, password);
     }
 
-    public Person addUser(String name, String pass) {
-        return repository.addUser(name, pass);
+    public Person addUser(String name, String pass, String icon) {
+        return repository.addUser(name, pass, icon);
     }
 
 }

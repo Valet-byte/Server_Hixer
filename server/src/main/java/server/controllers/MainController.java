@@ -13,9 +13,11 @@ import server.service.ServerModelService;
 import server.service.UploadService;
 import server.service.UsersUtilService;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 public class MainController {
@@ -26,7 +28,7 @@ public class MainController {
     @Autowired
     private ServerModelService serverModelService;
 
-    private Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
+    private final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
 
     @RequestMapping("/findUser")
     @ResponseBody
@@ -34,15 +36,19 @@ public class MainController {
         return usersUtilService.findUser(name, pass);
     }
 
-    @RequestMapping("/addUser")
+    @RequestMapping(value = "/addUser",  method = RequestMethod.POST)
     @ResponseBody
-    public Person addUser(@RequestParam("name") String name, @RequestParam("pass") String pass){
+    public Person addUser(@RequestParam("name") String name, @RequestParam("pass") String pass,
+                          @RequestParam("icon") String info,
+                          @RequestParam MultipartFile file){
+        System.out.println(info);
 
-        return usersUtilService.addUser(name, pass);
+        uploadService.uploadIcon(file);
+        return usersUtilService.addUser(name, pass, info);
     }
 
-    @RequestMapping(value = "/uploadPhoto", method = RequestMethod.POST)
-    public Integer upload(@RequestParam("description") String s,
+    @RequestMapping(value = "/uploadContents", method = RequestMethod.POST)
+    public Integer uploadContents(@RequestParam("description") String s,
                           @RequestParam(value = "models") String[] models,
                           @RequestParam MultipartFile... file){
         System.out.println(s);
@@ -53,12 +59,21 @@ public class MainController {
             }
             serverModelService.putModels(models1);
 
-        } catch (Exception e){
+        } catch (Exception ignored){
 
         }
         uploadService.upload(file);
+
         return 1;
     }
+
+    @RequestMapping(value = "/uploadIcon", method = RequestMethod.POST)
+    public Integer uploadIcon(@RequestParam("description") String info,
+                            @RequestParam MultipartFile file){
+        uploadService.uploadIcon(file);
+        return 1;
+    }
+
 
     @RequestMapping(value = "/getModelByUserID")
     @ResponseBody
@@ -78,16 +93,40 @@ public class MainController {
     @RequestMapping(value = "/getPhoto")
     @ResponseBody
     public Resource getPhoto(@RequestParam("name") String name){
-        Path path = Path.of("C:\\Users\\User\\Desktop\\" + name);
+        System.out.println(name);
+        Path path = Path.of("C:\\Users\\User\\Desktop\\IMG\\IMG_" + name);
         UrlResource resource = null;
         try {
             resource = new UrlResource(path.toUri());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
+        try {
+            System.out.println(resource.getFile().getAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return resource;
     }
 
+    @RequestMapping(value = "/getIcon")
+    @ResponseBody
+    public Resource getIcon(@RequestParam("name") String name){
+        System.out.println(name);
+        Path path = Path.of("C:\\Users\\User\\Desktop\\ICON\\ICON_" + name);
+        UrlResource resource = null;
+        try {
+            resource = new UrlResource(path.toUri());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        try {
+            System.out.println(Objects.requireNonNull(resource).getFile().getAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return resource;
+    }
     @RequestMapping(value = "getAllModelsByMainName")
     @ResponseBody
     public List<ServerModel> getAllModelsByMainName(@RequestParam("mainName") String mainName){

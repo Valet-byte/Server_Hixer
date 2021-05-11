@@ -6,6 +6,22 @@ public class Person implements Serializable {
     private final Long id;
     private final String name;
     private final String password;
+    private String photoName;
+
+    public Person(Long id, String name, String password, String photoName) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+        this.photoName = photoName;
+    }
+
+    public void setPhotoName(String photoName) {
+        this.photoName = photoName;
+    }
+
+    public String getPhotoName() {
+        return photoName;
+    }
 
     public Person(Long id, String name, String password) {
         this.id = id;

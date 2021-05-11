@@ -10,6 +10,7 @@ public class UserMapper implements RowMapper<Person> {
     @Override
     public Person mapRow(ResultSet resultSet, int i) throws SQLException {
         return new Person(resultSet.getLong("id"),
-                resultSet.getString("login"), resultSet.getString("pass"));
+                resultSet.getString("login"), resultSet.getString("pass"),
+                resultSet.getString("icon"));
     }
 }
