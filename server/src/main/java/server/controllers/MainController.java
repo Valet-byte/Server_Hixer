@@ -67,13 +67,6 @@ public class MainController {
         return 1;
     }
 
-    @RequestMapping(value = "/uploadIcon", method = RequestMethod.POST)
-    public Integer uploadIcon(@RequestParam("description") String info,
-                            @RequestParam MultipartFile file){
-        uploadService.uploadIcon(file);
-        return 1;
-    }
-
 
     @RequestMapping(value = "/getModelByUserID")
     @ResponseBody
@@ -102,7 +95,7 @@ public class MainController {
             e.printStackTrace();
         }
         try {
-            System.out.println(resource.getFile().getAbsolutePath());
+            System.out.println(Objects.requireNonNull(resource).getFile().getAbsolutePath());
         } catch (IOException e) {
             e.printStackTrace();
         }

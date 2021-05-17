@@ -10,7 +10,7 @@ import java.io.IOException;
 public class UploadService {
     public void upload(MultipartFile... file){
         File file1 = new File("C:\\Users\\User\\Desktop\\IMG\\");
-        if (!file1.exists())  file1.mkdir();
+        if (!file1.exists()) file1.mkdir();
         for (MultipartFile multipartFile : file) {
             try {
                 multipartFile.transferTo(new File("C:\\Users\\User\\Desktop\\IMG\\IMG_" + multipartFile.getOriginalFilename()));

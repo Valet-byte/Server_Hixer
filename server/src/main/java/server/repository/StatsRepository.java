@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 import server.mapper.ServerModelMapper;
 import server.model.ServerModel;
 
-import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 

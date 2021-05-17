@@ -12,9 +12,10 @@ public class ServerModelService {
     @Autowired
     StatsRepository repository;
 
-    public Integer putModels(ServerModel... models){
-        if (models != null) return repository.putModelsInBD(models);
-        else return null;
+    public void putModels(ServerModel... models){
+        if (models != null) {
+            repository.putModelsInBD(models);
+        }
     }
 
     public List<ServerModel> getModelByUserId(Long id, Integer type){
