@@ -51,6 +51,15 @@ public class ServerModel implements Serializable {
         this.photo = photo;
     }
 
+    public ServerModel(Long ID, String name, String info, Long authorID, String photo, Integer type) {
+        this.type = type;
+        this.name = name;
+        this.info = info;
+        this.authorID = authorID;
+        this.photo = photo;
+        this.ID = ID;
+    }
+
     public void setPosition(Integer position) {
         this.position = position;
     }

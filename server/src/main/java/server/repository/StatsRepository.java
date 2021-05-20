@@ -57,4 +57,10 @@ public class StatsRepository {
         return jdbcTemplate.query("SELECT * FROM stats WHERE mainName = ?",
                 new ServerModelMapper(),  mainName);
     }
+
+    public List<ServerModel> getStatsByID(Long id) {
+        jdbcTemplate.execute("USE content");
+        return jdbcTemplate.query("SELECT * FROM stats WHERE id = ? AND position = ?",
+                new ServerModelMapper(),  id, 0);
+    }
 }

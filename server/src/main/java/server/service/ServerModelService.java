@@ -1,3 +1,4 @@
+
 package server.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -5,6 +6,7 @@ import org.springframework.stereotype.Service;
 import server.model.ServerModel;
 import server.repository.StatsRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -39,6 +41,14 @@ public class ServerModelService {
             return repository.getAllModelsByMainName(mainName);
         } else {
             return null;
+        }
+    }
+
+    public List<ServerModel> getStatsByID(Long id) {
+        if (id != null){
+            return repository.getStatsByID(id);
+        } else {
+            return new ArrayList<>();
         }
     }
 }

@@ -33,6 +33,8 @@ public class MainController {
     @RequestMapping("/findUser")
     @ResponseBody
     public Person findUser(@RequestParam("name") String name, @RequestParam("pass") String pass){
+        System.out.println(name);
+        System.out.println(pass);
         return usersUtilService.findUser(name, pass);
     }
 
@@ -42,6 +44,9 @@ public class MainController {
                           @RequestParam("icon") String info,
                           @RequestParam MultipartFile file){
         System.out.println(info);
+
+        System.out.println(name);
+        System.out.println(pass);
 
         uploadService.uploadIcon(file);
         return usersUtilService.addUser(name, pass, info);
@@ -87,7 +92,7 @@ public class MainController {
     @ResponseBody
     public Resource getPhoto(@RequestParam("name") String name){
         System.out.println(name);
-        Path path = Path.of("C:\\Users\\User\\Desktop\\IMG\\IMG_" + name);
+        Path path = Path.of("/home/Shumakov/IMG/IMG_" + name);
         UrlResource resource = null;
         try {
             resource = new UrlResource(path.toUri());
@@ -106,7 +111,7 @@ public class MainController {
     @ResponseBody
     public Resource getIcon(@RequestParam("name") String name){
         System.out.println(name);
-        Path path = Path.of("C:\\Users\\User\\Desktop\\ICON\\ICON_" + name);
+        Path path = Path.of("/home/Shumakov/ICON/ICON_" + name);
         UrlResource resource = null;
         try {
             resource = new UrlResource(path.toUri());
@@ -120,10 +125,17 @@ public class MainController {
         }
         return resource;
     }
+
     @RequestMapping(value = "getAllModelsByMainName")
     @ResponseBody
     public List<ServerModel> getAllModelsByMainName(@RequestParam("mainName") String mainName){
         return serverModelService.getAllModelsByMainName(mainName);
+    }
+
+    @RequestMapping(value = "getStatsByID")
+    @ResponseBody
+    public List<ServerModel> getStatsByID(@RequestParam("ID") Long ID){
+        return serverModelService.getStatsByID(ID);
     }
     
 }
