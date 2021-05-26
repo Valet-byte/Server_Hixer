@@ -44,8 +44,8 @@ public class ServerModelService {
         }
     }
 
-    public List<ServerModel> getStatsByID(Long id) {
-        if (id != null){
+    public List<ServerModel> getStatsByID(String id) {
+        if (id != null || id.equals("")){
             return repository.getStatsByID(id);
         } else {
             return new ArrayList<>();

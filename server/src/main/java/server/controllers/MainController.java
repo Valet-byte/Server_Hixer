@@ -134,7 +134,7 @@ public class MainController {
 
     @RequestMapping(value = "getStatsByID")
     @ResponseBody
-    public List<ServerModel> getStatsByID(@RequestParam("ID") Long ID){
+    public List<ServerModel> getStatsByID(@RequestParam("ID") String ID){
         return serverModelService.getStatsByID(ID);
     }
     

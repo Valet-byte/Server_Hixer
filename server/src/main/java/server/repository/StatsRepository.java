@@ -15,7 +15,7 @@ public class StatsRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    public Integer putModelsInBD(ServerModel... models) {
+    public void putModelsInBD(ServerModel... models) {
         jdbcTemplate.execute("USE content");
         for (ServerModel model : models) {
             jdbcTemplate.update("INSERT INTO stats (authorID, photo, name, info, position, type, mainName) " +
@@ -23,7 +23,6 @@ public class StatsRepository {
                     model.getType(), models[0].getName());
         }
 
-        return 1;
     }
 
     public List<ServerModel> getModelsByUserId(Long id, Integer type) {
@@ -58,9 +57,9 @@ public class StatsRepository {
                 new ServerModelMapper(),  mainName);
     }
 
-    public List<ServerModel> getStatsByID(Long id) {
+    public List<ServerModel> getStatsByID(String id) {
         jdbcTemplate.execute("USE content");
-        return jdbcTemplate.query("SELECT * FROM stats WHERE id = ? AND position = ?",
-                new ServerModelMapper(),  id, 0);
+        return jdbcTemplate.query("SELECT * FROM stats WHERE ( id = ? OR name = ? OR info = ? ) AND position = ?",
+                new ServerModelMapper(),  id, id, id, 0);
     }
 }
